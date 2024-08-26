@@ -10,8 +10,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Set up Docker
-      run: sudo apt-get update && sudo apt-get install -y docker.io
+    - name: Update and Upgrade the System
+      run: |
+        sudo apt-get update
+        sudo apt-get dist-upgrade -y
+
+    - name: Clean Up and Fix Dependencies
+      run: |
+        sudo apt-get install -f
+        sudo apt-get autoremove -y
+        sudo apt-get autoclean
+
+    - name: Install Docker
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y docker.io
 
     - name: Run Squid Proxy in Docker
       run: |
