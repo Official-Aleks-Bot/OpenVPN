@@ -10,17 +10,16 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
-    - name: Install Squid
-      run: sudo apt-get update && sudo apt-get install -y squid apache2-utils
+    - name: Set up Docker
+      run: sudo apt-get update && sudo apt-get install -y docker.io
 
-    - name: Configure Squid
+    - name: Run Squid Proxy in Docker
       run: |
-        sudo cp squid.conf /etc/squid/squid.conf
-        sudo cp passwords /etc/squid/passwords
-        sudo chmod o+r /etc/squid/passwords
-
-    - name: Start Squid Service
-      run: sudo systemctl restart squid
+        docker run -d --name squid-proxy \
+        -p 3128:3128 \
+        -e USERNAME=${{ secrets.PROXY_USERNAME }} \
+        -e PASSWORD=${{ secrets.PROXY_PASSWORD }} \
+        sameersbn/squid:latest
 
     - name: Test Proxy Server
-      run: curl -x http://username:password@localhost:3128 https://www.google.com
+      run: curl -x http://${{ secrets.PROXY_USERNAME }}:${{ secrets.PROXY_PASSWORD }}@localhost:3128 https://www.google.com
