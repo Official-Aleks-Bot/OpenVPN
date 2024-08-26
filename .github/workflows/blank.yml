@@ -11,8 +11,8 @@ jobs:
       run: |
         sudo su
         sudo apt update && apt install curl openvpn -y
-        curl -O https://raw.githubusercontent.com/galih-prasetyo/ngrok-openvpn/main/openvpn-install.sh
-        chmod +x openvpn-install.sh
+        sudo curl -O https://raw.githubusercontent.com/galih-prasetyo/ngrok-openvpn/main/openvpn-install.sh
+        sudo chmod +x openvpn-install.sh
         sudo ./openvpn-install.sh
       
     - name: Loop
