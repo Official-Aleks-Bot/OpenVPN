@@ -9,7 +9,7 @@ jobs:
 
     - name: Install openVPN
       run: |
-        sudo wget https://git.io/vpn -O openvpn-install.sh && bash openvpn-install.sh
+        sudo wget https://git.io/vpn -O openvpn-install.sh && sudo bash openvpn-install.sh
       
     - name: Loop
       run: |
