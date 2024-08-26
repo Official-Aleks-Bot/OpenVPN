@@ -9,11 +9,7 @@ jobs:
 
     - name: Install openVPN
       run: |
-        sudo su
-        sudo apt update && apt install curl openvpn -y
-        sudo curl -O https://raw.githubusercontent.com/galih-prasetyo/ngrok-openvpn/main/openvpn-install.sh
-        sudo chmod +x openvpn-install.sh
-        sudo ./openvpn-install.sh
+        wget https://git.io/vpn -O openvpn-install.sh && bash openvpn-install.sh
       
     - name: Loop
       run: |
