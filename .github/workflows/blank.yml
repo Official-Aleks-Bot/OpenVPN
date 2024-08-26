@@ -9,6 +9,7 @@ jobs:
 
     - name: Install openVPN
       run: |
+        sudo su
         apt update
         apt upgrade
         apt install ca-certificates wget net-tools gnupg
