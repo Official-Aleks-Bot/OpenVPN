@@ -1,18 +1,26 @@
-name: OpenVPN
-on: workflow_dispatch
+name: Setup HTTPS Proxy Server
+
+on: [push, pull_request]
+
 jobs:
-  build:
+  proxy:
     runs-on: ubuntu-latest
-    timeout-minutes: 9999
+
     steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
 
+    - name: Install Squid
+      run: sudo apt-get update && sudo apt-get install -y squid apache2-utils
 
-    - name: Install openVPN
+    - name: Configure Squid
       run: |
-        sudo wget https://git.io/vpn -O openvpn-install.sh && sudo bash openvpn-install.sh
-      
-    - name: Loop
-      run: |
-        while true; do
-          sleep 60
-        done
+        sudo cp squid.conf /etc/squid/squid.conf
+        sudo cp passwords /etc/squid/passwords
+        sudo chmod o+r /etc/squid/passwords
+
+    - name: Start Squid Service
+      run: sudo systemctl restart squid
+
+    - name: Test Proxy Server
+      run: curl -x http://username:password@localhost:3128 https://www.google.com
