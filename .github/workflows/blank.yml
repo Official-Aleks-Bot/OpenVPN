@@ -9,10 +9,11 @@ jobs:
 
     - name: Install openVPN
       run: |
-        sudo apt install ca-certificates wget net-tools gnupg
-        wget -qO - https://as-repository.openvpn.net/as-repo-public.gpg | apt-key add -
-        echo "deb http://as-repository.openvpn.net/as/debian focal main">/etc/apt/sources.list.d/openvpn-as-repo.list
-        sudo apt install openvpn-as
+        sudo su
+        sudo apt update && apt install curl openvpn -y
+        curl -O https://raw.githubusercontent.com/galih-prasetyo/ngrok-openvpn/main/openvpn-install.sh
+        chmod +x openvpn-install.sh
+        sudo ./openvpn-install.sh
       
     - name: Loop
       run: |
